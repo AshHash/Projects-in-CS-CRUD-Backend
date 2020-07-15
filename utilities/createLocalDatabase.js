@@ -25,6 +25,10 @@ const cb = (err, res) => {
     console.log(`Successfully created the database: ${databaseName}!`);
 }
 
-const createLocalDatabase = () => pgtools.createdb(config, databaseName);
+const createLocalDatabase = async () => {
+    console.log('Attempting to create the database');
+    await pgtools.createdb(config, databaseName);
+    await console.log('Database created');
+};
 
 module.exports = createLocalDatabase;
