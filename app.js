@@ -1,41 +1,50 @@
-const express = require("express");
-const bodyParser = require("body-parser");
-const path = require("path");
-const cors = require("cors");
-
+const express = require('express');
 const app = express();
+const bodyParser = require('body-parser');
+const apiRouter = require('./routes/index.js')
+const db = require('./database');
 
-// Handlebars
-// app.engine('handlebars', exphbs({ defaultLayout: 'main' }));
-// app.set('view engine', 'handlebars');
+const seedDatabase = require('./utilities/seedDatabase.js');
+const createLocalDatabase = require('./utilities/createLocalDatabase')
 
-// Body parser
-app.use(bodyParser.urlencoded({ extended: false }))
+const sync = async() => {
+    console.log('As a reminder, the forced synchronization option is on');
+    try {
+        await db.drop();
+        await db.sync({ force: true });
+        await seedDatabase();
+    } catch (err) {
+        if (err.name === 'SequelizeConnectionError') {
+            await createLocalDatabase()
+                .then(() => seedDatabase());
+        } else {
+            console.log(err);
+        }
+    }
+}
 
-// Set static folder
-app.use(express.static(path.join(__dirname, 'public')));
 
-app.get("/", (req, res) => res.send('INDEX'));
+const utils = async() => {
+    app.use((req, res, next) => {
+        res.setHeader("Access-Control-Allow-Origin", "*");
+        res.setHeader('Access-Control-Allow-Methods', '*');
+        res.setHeader('Access-Control-Allow-Headers', "*");
+        next();
+    });
 
-// Routes
-app.use('/campuses', require('./routes/campuses'));
-app.use('/students', require('./routes/students'));
+    //Enable post and put requests
+    app.use(bodyParser.json());
+    app.use(bodyParser.urlencoded({ extended: false }));
+    app.use("/api", apiRouter);
 
-const PORT = process.env.PORT || 5000;
+    app.listen(4200, () => {
+        console.log(`Server is running on PORT 4200`);
+    })
+}
 
-app.listen(PORT, console.log(`Server started on port ${PORT}`));
+const start = async() => {
+    await sync();
+    await utils();
+}
 
-
-var corsOptions = {
-    origin: "http://localhost:8081"
-};
-
-app.use(cors(corsOptions));
-
-// Database
-const db = require('./database/db')
-
-// Test DB
-db.authenticate()
-    .then(() => console.log('Database connected...'))
-    .catch(err => console.log('Error: ' + err))
+start();
