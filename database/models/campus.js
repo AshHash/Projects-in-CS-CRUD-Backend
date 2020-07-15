@@ -12,14 +12,15 @@ const Campus = db.define("campus", {
     },
     image: {
         type: Sequelize.STRING,
-        allownull: true
+        allownull: true,
+        defaultValue: 'https://www.svgrepo.com/show/67989/university.svg',
     },
     description: {
         type: Sequelize.STRING,
         allownull: true
     }
 }, {
-    timestamps: false
+    timestamps: false,
 });
 
 module.exports = Campus;

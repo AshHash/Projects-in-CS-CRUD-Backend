@@ -2,28 +2,36 @@ const Sequalize = require('sequelize');
 const db = require('../db');
 
 const Student = db.define("student", {
-    name:{
+    name: {
         type: Sequalize.STRING,
         allowNull: false
     },
-    campusId:{
+    campusId: {
         type: Sequalize.INTEGER,
         allowNull: true
     },
-    gpa:{
+    gpa: {
         type: Sequalize.DECIMAL,
-        allowNull: true
+        allowNull: true,
+        validate: {
+            min: 0.0,
+            max: 4.0
+        }
     },
     email: {
         type: Sequalize.STRING,
-        allowNull: true
+        allowNull: true,
+        validate: {
+            isEmail: true
+        }
     },
     image: {
         type: Sequalize.STRING,
-        allowNull: true
+        allowNull: true,
+        defaultValue: 'https://image.flaticon.com/icons/svg/201/201818.svg'
     }
 }, {
-    timestamps: false
+    timestamps: false,
 });
 
 module.exports = Student;
