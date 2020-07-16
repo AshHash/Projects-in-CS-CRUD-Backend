@@ -12,19 +12,22 @@ const seedDatabase = async() => {
 
     const students = await Promise.all([
         Student.create({
-            name: "Lilian Voss",
+            firstName: "Lilian",
+            lastName: "Voss",
             image: "https://i.imgur.com/5nprHSh.png",
             gpa: 3.8,
             email: "v.lilly32.33repeatingOfCourse@gmail.com"
         }),
         Student.create({
-            name: "Benjamin Broderick Jr",
+            firstName: "Benjamin",
+            lastName: "Broderick Jr",
             image: "https://gamepedia.cursecdn.com/hearthstone_gamepedia/d/d5/Ben_Brode_-_Twitter.jpg?version=71c7d81253fa6d6e1a94048da7b6aff7",
             gpa: 2.9,
             email: "benBrodeJr@activision.com"
         }),
         Student.create({
-            name: "Student 3",
+            firstName: "Student",
+            lastName: "Three",
             image: "https://blognumbers.files.wordpress.com/2010/09/3.jpg?w=231&h=300",
             gpa: 3.3,
             email: "student.3@3mail.org"

@@ -2,7 +2,11 @@ const Sequalize = require('sequelize');
 const db = require('../db');
 
 const Student = db.define("student", {
-    name: {
+    firstName: {
+        type: Sequalize.STRING,
+        allowNull: false
+    },
+    lastName: {
         type: Sequalize.STRING,
         allowNull: false
     },
