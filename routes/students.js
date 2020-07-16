@@ -2,11 +2,17 @@ const express = require('express');
 const router = express.Router();
 const { Student } = require('../database/models');
 
+//routes for the requests
+
+/* GET REQUEST */
+
 router.get('/', function(req, res, next) {
     Student.findAll()
         .then(students => res.status(200).json(students))
         .catch(err => next(err));
 });
+
+/* POST REQUEST */
 
 router.post('/', function(req, res, next) {
     let newStudent = req.body;
@@ -14,6 +20,8 @@ router.post('/', function(req, res, next) {
         .then(createdStudent => res.status(200).json(createdStudent))
         .catch(err => next(err));
 })
+
+/* PUT REQUEST */
 
 router.put('/:id', function(req, res, next) {
     Student.update(req.body, {
@@ -24,6 +32,8 @@ router.put('/:id', function(req, res, next) {
         .then(students => res.status(200).json(students))
         .catch(err => next(err))
 })
+
+/* DELETE REQUEST */
 
 router.delete('/:id', function(req, res, next) {
     Student.destroy({

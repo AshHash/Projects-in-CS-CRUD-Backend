@@ -1,6 +1,8 @@
 const Sequelize = require('sequelize');
 const db = require('../db');
 
+
+//setting up schema for campuses
 const Campus = db.define("campus", {
     name: {
         type: Sequelize.STRING,
