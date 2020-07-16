@@ -4,7 +4,7 @@
 Move into the directory and install dependencies
 
 ```shell
-cd my-app
+cd Projects-in-CS-CRUD-Backend
 npm install
 ```
 
