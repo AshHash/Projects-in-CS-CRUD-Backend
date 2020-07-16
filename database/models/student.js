@@ -1,6 +1,7 @@
 const Sequalize = require('sequelize');
 const db = require('../db');
 
+//setting up schema for students
 const Student = db.define("student", {
     firstName: {
         type: Sequalize.STRING,

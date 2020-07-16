@@ -1,14 +1,15 @@
 const express = require('express');
 const app = express();
-const bodyParser = require('body-parser');
-const apiRouter = require('./routes/index.js')
-const db = require('./database');
+const bodyParser = require('body-parser'); //need for enabling post and put requests
+const apiRouter = require('./routes/index.js'); //routes for requests
+const db = require('./database'); //our database
 
-const seedDatabase = require('./utilities/seedDatabase.js');
-const createLocalDatabase = require('./utilities/createLocalDatabase')
+const seedDatabase = require('./utilities/seedDatabase.js'); //function for filling the database with values
+const createLocalDatabase = require('./utilities/createLocalDatabase'); //function for creating the database if not set up yet
 
+//syncing the server with the database.
+//if the database already exists, just connect to it. otherwise, create a new database and fill it with default values
 const sync = async() => {
-    console.log('As a reminder, the forced synchronization option is on');
     try {
         await db.sync({ force: false });
     } catch (err) {
@@ -22,18 +23,7 @@ const sync = async() => {
     }
 }
 
-//function for restarting the server using a child process. used for debugging
-// const restart = () =>{
-//     process.on("exit", function () {
-//         require("child_process").spawn(process.argv.shift(), process.argv, {
-//             cwd: process.cwd(),
-//             detached : true,
-//             stdio: "inherit"
-//         });
-//     });
-//     process.exit();
-// }
-
+//allowing cors
 const utils = async() => {
     app.use((req, res, next) => {
         res.setHeader("Access-Control-Allow-Origin", "*");
